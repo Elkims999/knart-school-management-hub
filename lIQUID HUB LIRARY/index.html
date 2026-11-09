@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="assets/css/css/main.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#5856D6">
+<title>KNart School Management Hub v4</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%235856D6'/><stop offset='1' stop-color='%237B61FF'/></linearGradient></defs><rect width='100' height='100' rx='24' fill='url(%23g)'/><path d='M26 34h48v8H26zm0 14h48v8H26zm0 14h30v8H26z' fill='%23fff'/></svg>">
+
+</head>
+<body>
+
+<!-- AUTH SCREEN -->
+<div id="authScreen">
+  <div class="auth-box" id="authBox">
+    <h1>KNart School Hub</h1>
+    <p>Sign in to open your school files.</p>
+
+    <div id="loginForm">
+      <input type="email" id="loginEmail" class="field" placeholder="Email address" autocomplete="email">
+      <input type="password" id="loginPassword" class="field" placeholder="Password" autocomplete="current-password">
+      <div class="err-msg" id="loginErr"></div>
+      <button class="btn primary" id="btnLogin">Log in</button>
+      <div class="auth-links">
+        <a id="linkForgot">Forgot password?</a>
+        <span>Don't have an account? <a id="linkToSignup">Sign up</a></span>
+      </div>
+    </div>
+
+    <div id="signupForm" class="hide">
+      <input type="text" id="suName" class="field" placeholder="Full name">
+      <input type="text" id="suUser" class="field" placeholder="Username">
+      <input type="email" id="suEmail" class="field" placeholder="Email address" autocomplete="email">
+      <input type="password" id="suPass" class="field" placeholder="Password (min 6 characters)" autocomplete="new-password">
+      <input type="password" id="suConfirm" class="field" placeholder="Confirm password" autocomplete="new-password">
+      <label class="checkbox-row">
+        <input type="checkbox" id="suTerms">
+        <span>I agree to the Terms &amp; Conditions and Privacy Policy.</span>
+      </label>
+      <div class="err-msg" id="suErr"></div>
+      <button class="btn primary" id="btnSignup">Create account</button>
+      <div class="auth-links">
+        <span>Already have an account? <a id="linkToLogin">Log in</a></span>
+      </div>
+    </div>
+
+    <div id="authLoaderWrap" class="hide" style="text-align:center;padding:20px 0;">
+      <div id="authLoader" style="display:inline-block;width:32px;height:32px;"></div>
+      <p style="margin-top:14px;color:var(--mu);font-size:.9em;" id="authLoaderTxt">Please wait…</p>
+    </div>
+  </div>
+</div>
+
+<div id="pin" class="hide">
+  <h2>Enter PIN</h2><p>KNart School Management Hub is locked</p>
+  <div class="dots" id="pinDots"><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="pad" id="pad"></div>
+</div>
+
+<header class="top hide" id="mainHeader">
+  <svg class="logo" viewBox="0 0 36 36" aria-label="KNart School Management Hub"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5856D6"/><stop offset="1" stop-color="#7B61FF"/></linearGradient></defs><rect width="36" height="36" rx="10" fill="url(#lg)"/><path d="M8 11h20v4H8zm0 5.5h20v4H8zm0 5.5h13v4H8z" fill="#fff"/></svg>
+  <div class="topsearch">
+    <svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+    <input id="q" type="search" autocomplete="off" placeholder="Search files, folders, tags… (type / to search inside)" aria-label="Search everything">
+    <button class="clr hide" id="qclr" data-act="clearQ" aria-label="Clear search"><svg class="i" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <button class="topbtn" data-act="startTour" aria-label="Take the guided tour"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 114 2c-.9.6-1.5 1-1.5 2M12 17h.01"/></svg></button>
+  <button class="topbtn" data-act="openNotifs" aria-label="Notifications" id="topNotifBtn">
+    <svg class="i" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+    <span id="notifBadge" class="hide badge-count">0</span>
+    <span id="uploadSpinner" class="hide badge-spinner"></span>
+  </button>
+  <button class="topbtn" data-act="openProfile" aria-label="Profile" id="topProfileBtn">
+    <div class="av" id="headerAvatar" style="width:26px;height:26px;font-size:12px;background:var(--grad-primary);">U</div>
+  </button>
+  <button class="topbtn" data-act="settings" aria-label="Settings" id="settingsBtn">
+    <svg class="i" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+  </button>
+</header>
+
+<main class="shell hide" id="shell">
+  <div class="shell-bar">
+    <button class="backbtn" id="backBtn" data-act="back" aria-label="Go up one level"><svg class="i" viewBox="0 0 24 24" style="width:22px;height:22px;stroke-width:2.4"><path d="M15 5l-7 7 7 7"/></svg><span>Back</span></button>
+    <span class="brand">KNart School Management Hub</span><span class="ver">v4.0.0</span>
+  </div>
+  <div class="shell-body">
+    <nav class="rail" id="rail" aria-label="Main menu"></nav>
+    <aside class="side" id="side">
+      <div class="sb-head"><h3>School Files</h3><div style="display:flex;gap:2px">
+        <button class="ib" data-act="plusMenu" aria-label="Add a folder or upload files"><svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><span>Add</span></button>
+        <button class="ib" data-act="toggleSide" aria-label="Hide folder list"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="3"/><path d="M9 5v14"/></svg></button></div></div>
+      <label class="sb-search"><svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="sq" placeholder="Search folders…" autocomplete="off"></label>
+      <div class="seg" id="seg"></div>
+      <div class="tree" id="tree"></div>
+      <div class="smart" id="smart"></div>
+    </aside>
+    <section class="ws" id="wsx">
+      <div class="dz" id="dz">Drop files to save them</div>
+      <div class="wh" id="wh"></div>
+      <div class="wsc" id="wsc"></div>
+    </section>
+  </div>
+</main>
+
+<button class="fab hide" id="mainFab" data-act="plusMenu" aria-label="Add folder or upload files">
+  <svg class="i" viewBox="0 0 24 24" style="width:24px;height:24px;stroke-width:2.4"><path d="M12 5v14M5 12h14"/></svg>
+</button>
+
+<aside class="drawer" id="drawer" aria-label="Settings"></aside>
+<div id="viewer"></div>
+<div id="modalRoot"></div>
+<div id="tourRoot"></div>
+<div class="notif-panel" id="notifPanel"></div>
+<div class="profile-panel" id="profilePanel"></div>
+<div class="toast" id="toast"></div>
+<div class="upbar" id="upbar"><b id="upTxt">Saving…</b><div class="upb"><i id="upFill"></i></div></div>
+<input type="file" id="fin" multiple class="hide">
+<input type="file" id="din" webkitdirectory multiple class="hide">
+<input type="file" id="bin" accept=".json,application/json" class="hide">
+
+<!--
+  ================================================================
+  ADMIN: WHAT'S COMING NEW
+  Type whatever you want users to see in the "What's coming new"
+  section of the Home page inside this block (id="adminComingNew").
+  One <li> per line. Save the file and it shows on Home.
+  (The admin account can also edit it live inside the app.)
+  ================================================================
+-->
+<div id="adminComingNew" hidden>
+  <ul>
+    <li>Shared study groups so classmates can swap notes.</li>
+    <li>Past-question packs sorted by course and year.</li>
+    <li>Reminders for assignment deadlines and exams.</li>
+  </ul>
+</div>
+
+<script src="assets/css/js/app.js"></script>
+</body>
+</html>
+<script src="assets/css/js/app.js"></script>
